@@ -1,0 +1,34 @@
+/* 完全隐藏 Wagtail 的 SVG logo */
+.sidebar-wagtail-branding__icon-wrapper svg {
+  display: none !important;
+}
+.sidebar-wagtail-branding__icon-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.content-title::after {
+    content: "";
+    display: inline-block;
+    background-image: url("/static/img/editor-banner.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 60px;  /* 图片宽度 */
+    height: 60px; /* 图片高度 */
+    margin-left: 20px;
+    vertical-align: middle;
+}
+.w-panel__content fieldset{
+  padding: 0;
+}
+/* 用背景图替代 */
+/* .sidebar-wagtail-branding__icon-wrapper::before {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 40px;
+  background-image: url("/static/images/awepaylogo_pay_al.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+} */

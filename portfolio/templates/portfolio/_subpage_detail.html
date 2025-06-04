@@ -1,16 +1,21 @@
 {% load wagtailcore_tags %}
 
-<div class="row">
-  <div class="col-md-2">
-    <nav id="sidebar-menu">
-      <ul class="nav flex-column">
-        {% for section in subpage.get_children.live %}
+<div class="row mystickbox">
+  <div class="col-md-2 mysectionmenu">
+    <nav id="sidebar-menu" class="sidebar-menu">
+      <ul>
+        {% for section in subpage.get_children.live.specific %}
         <li>
-          <a class="nav-link" href="#section-{{ section.slug }}">{{ section.title }}</a>
-          {% if section.get_children.live %}
+          <div class="icon-btn">
+            <span class="hugeicons--pointing-right-03"></span>
+            <a class="nav-link sectiontit" href="#{{ section.anchor_id }}">{{ section.title }}</a>
+          </div>
+          {% if section.get_children.live.specific %}
           <ul>
-            {% for subsection in section.get_children.live %}
-            <li><a class="nav-link" href="#section-{{ subsection.slug }}">{{ subsection.title }}</a></li>
+            {% for subsection in section.get_children.live.specific %}
+            <li>
+              <a class="nav-link subsectiontit" href="#{{ subsection.anchor_id }}">{{ subsection.title }}</a>
+            </li>
             {% endfor %}
           </ul>
           {% endif %}
@@ -20,20 +25,34 @@
     </nav>
   </div>
 
-  <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4 ">
-    {% for section in subpage.get_children.live %}
-    <section id="section-{{ section.slug }}">
-      <h3>{{ section.title }}</h3>
-      <div>{{ section.specific.body|richtext }}</div>
+  <main class="col-md-9 mysection">
+    {% for section in subpage.get_children.live.specific %}
+    <section id="{{ section.anchor_id }}">
+      <h3 class="tit">{{ section.title }}</h3>
+      {{ section.specific.body|richtext }}
 
       {% if section.specific.code_block %}
-      <pre><code>{{ section.specific.code_block|safe }}</code></pre>
+        {% if section.specific.is_code %}
+        <pre class="line-numbers"><code class="language-javascript">{{ section.specific.code_block|escape }}</code></pre>
+        {% else %}
+        <div class="gap-20">{{ section.specific.code_block|safe }}</div>
+        {% endif %}
       {% endif %}
 
-      {% for subsection in section.get_children.live %}
-      <div id="section-{{ subsection.slug }}">
-        <h4>{{ subsection.title }}</h4>
-        <div>{{ subsection.specific.body|richtext }}</div>
+      {% for subsection in section.get_children.live.specific %}
+      <div id="{{ subsection.anchor_id }}" class="subsection">
+        <h4 class="subtit">{{ subsection.title }}</h4>
+
+        {{ subsection.specific.body|richtext }}
+
+        {% if subsection.specific.code_block %}
+          {% if section.specific.is_code %}
+          <pre
+            class="line-numbers"><code class="language-javascript">{{ subsection.specific.code_block|escape }}</code></pre>
+          {% else %}
+          <div class="gap-20">{{ subsection.specific.code_block|safe }}</div>
+          {% endif %}
+        {% endif %}
       </div>
       {% endfor %}
     </section>

@@ -1,14 +1,21 @@
-<ul id="timeline">
+<!-- <ul id="timeline">
   <li data-index="0" class="active">
     AWEPAY
   </li>
-  <li data-index="1">
-    P2P
+  {% for link in page.links.all %}
+    <li data-index="{{ forloop.counter }}">
+      {{ link.title|upper }}
+    </li>
+  {% endfor %}
+</ul> -->
+
+<ul id="timeline">
+  <li data-index="0" class="active">
+    <a href="#top">AWEPAY</a>
   </li>
-  <li data-index="2">
-    CREDIT CARD
-  </li>
-  <li data-index="3">
-    CRYPTO
-  </li>
+  {% for link in page.links.all %}
+    <li data-index="{{ forloop.counter }}">
+      <a href="#{{ link.title|slugify }}">{{ link.title|upper }}</a>
+    </li>
+  {% endfor %}
 </ul>

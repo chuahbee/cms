@@ -1,112 +1,85 @@
 {% extends "base.html" %}
-<!-- {% load static wagtailcore_tags %} -->
-{% load wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
 
 {% block content %}
 <div id="wrapper" class="flex ">
+{% if page.image %}
+  <img src="{{ page.image.url }}" alt="{{ page.image.title }}">
+{% endif %}
 
   <!-- 0. INTRO -->
   <section class="panel intro">
     <h1>
-      <span class="span">Welcome to</span>
-      AWEPAY
+      <span class="span">{{ page.welcome_prefix }}</span>
+      {{ page.brand_name }}
     </h1>
 
-<div class="centerBox">
-  <div class="innerBox">
-    <a href="{% slugurl 'p2p' %}" class="centerBoxLink">
-      <span class="p2p-line"></span>
-      P2P
-      <span class="next-right"></span>
-    </a>
-
-    <a href="{% slugurl 'credit-cards' %}" class="centerBoxLink">
-      <span class="akar-icons--credit-card"></span>
-      CREDIT CARD
-      <span class="next-right"></span>
-    </a>
-
-    <div class="centerBox2">
-      <div class="centerBoxLink">
-        <span class="mingcute--tether-usdt-line"></span>
-        CRYPTO
-      </div>
+    <div class="centerBox">
       <div class="innerBox">
-        <a href="{% slugurl 'bitfinex' %}" class="centerBoxLink">
-          <img src="{% static 'images/bitfinex-logo.webp' %}" alt="Bitfinex">
-          Bitfinex
+        {% for link in page.links.all %}
+        {% if link.sublinks.all %}
+        <!-- 有子链接时，例如 Crypto -->
+        <div class="centerBox2">
+          <div class="centerBoxLink">
+            <span class="{{ link.icon_class }}"></span>
+            {{ link.title }}
+          </div>
+          <div class="innerBox">
+            {% for sub in link.sublinks.all %}
+            <a href="{% pageurl sub.url %}" class="centerBoxLink">
+              {% if sub.logo %}
+              {% image sub.logo fill-100x100 alt=sub.title %}
+              <!-- <img src="{{ sub.logo.url }}" alt="{{ sub.title }}"> -->
+              {% endif %}
+              {{ sub.title }}
+              <span class="next-right"></span>
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+        {% else %}
+        <!-- 没有子链接时，例如 P2P、Credit Card -->
+        <a href="{% pageurl link.url %}" class="centerBoxLink">
+          <span class="{{ link.icon_class }}"></span>
+          {{ link.title }}
           <span class="next-right"></span>
         </a>
-
-        <a href="{% slugurl 'awesome' %}" class="centerBoxLink">
-          <img src="{% static 'images/awepaylogo_pay_al.png' %}" alt="Awesomepay">
-          Awesomepay
-          <span class="next-right"></span>
-        </a>
+        {% endif %}
+        {% endfor %}
       </div>
     </div>
-  </div>
-</div>
-
-    
   </section>
 
-  <!-- 1. P2P -->
-  <section class="panel p2p">
+  {% for link in page.links.all %}
+  <section id="{{ link.title|slugify }}" class="panel {{ link.title|lower }}">
     <h1>
       <span class="span">AWEPAY</span>
-      P2P
+      {{ link.title }}
     </h1>
     <div class="centerBox">
       <div class="innerBox">
-        <a href="{% slugurl 'p2p' %}" class="centerBoxLink">
-          <span class="p2p-line"></span>
+        {% if link.sublinks.all %}
+        {% for sub in link.sublinks.all %}
+        <a href="{% pageurl sub.url %}" class="centerBoxLink">
+          {% if sub.logo %}
+          {% image sub.logo fill-100x100 alt=sub.title %}
+          {% endif %}
+          {{ sub.title }}
+          <span class="next-right"></span>
+        </a>
+        {% endfor %}
+        {% else %}
+        <a href="{% pageurl link.url %}" class="centerBoxLink">
+          <span class="{{ link.icon_class }}"></span>
           Let go!
           <span class="next-right"></span>
         </a>
+        {% endif %}
       </div>
     </div>
   </section>
-
-  <!-- 2. CREDIT CARD -->
-  <section class="panel creditcard">
-    <h1>
-      <span class="span">AWEPAY</span>
-      Credit Card
-    </h1>
-    <div class="centerBox">
-      <div class="innerBox">
-        <a href="{% slugurl 'credit-cards' %}" class="centerBoxLink">
-          <span class="akar-icons--credit-card"></span>
-          Let go!
-          <span class="next-right"></span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- 3. CRYPTO -->
- <section class="panel crypto">
-
-  <h1>
-    <span class="span">AWEPAY</span>
-    Crypto
-  </h1>
-  <div class="centerBox">
-    <div class="innerBox">
-      <a href="{% slugurl 'bitfinex' %}" class="centerBoxLink">
-        <img src="{% static 'images/bitfinex-logo.webp' %}" alt="Bitfinex">
-        Bitfinex
-        <span class="next-right"></span>
-      </a>
-      <a href="{% slugurl 'awesome' %}" class="centerBoxLink">
-        <img src="{% static 'images/awepaylogo_pay_al.png' %}" alt="Awesomepay">
-        Awesomepay
-        <span class="next-right"></span>
-      </a>
-    </div>
-  </div>
-</section>
+  {% endfor %}
 
 
 </div>

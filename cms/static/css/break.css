@@ -12,6 +12,7 @@
   --mainfontstyle: normal;
   --fontlarge: 2rem;
   --fontmbh1: 4.5rem;
+  --fontmbh1m: 3rem;
   --fontspan: 1.5rem;
   --brownhover: #2c3525;
   --bodybg: #efefef;
@@ -124,10 +125,14 @@ img {
 #timeline li img {
   width: 30px;
 }
-
-#timeline li.active {
-  transform: scale(1.2) rotate(-15deg);
+#timeline li a{
+  text-decoration: none;
   color: var(--maincls);
+  
+}
+#timeline li.active a {
+  transform: scale(1.8) rotate(-15deg);
+  color: var(--brown);
 }
 
 h1 {
@@ -152,7 +157,7 @@ h1 {
 }
 
 .centerBox2 .innerBox .centerBoxLink {
-  font-size: 1rem;
+  font-size: 1.3rem;
 }
 
 .centerBox2 .innerBox .centerBoxLink:hover {
@@ -188,12 +193,13 @@ h1 {
 }
 
 .centerBoxLink img {
-  width: 30px;
+  width: 40px;
+  height: auto;
 }
 
-.centerBoxLink+.centerBoxLink img {
+/* .centerBoxLink+.centerBoxLink img {
   width: 50px;
-}
+} */
 
 .centerBox2 .innerBox .centerBoxLink {
   gap: 7px;
@@ -380,7 +386,45 @@ h1 {
     height: 80px;
     animation: spin 1s linear infinite;
 }
-
+.solar--card-broken {
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23000' stroke-linecap='round' stroke-width='1.5' d='M22 12c0-3.771 0-5.657-1.172-6.828S17.771 4 14 4h-4C6.229 4 4.343 4 3.172 5.172S2 8.229 2 12s0 5.657 1.172 6.828S6.229 20 10 20h4c3.771 0 5.657 0 6.828-1.172c.654-.653.943-1.528 1.07-2.828M10 16H6m8 0h-1.5M2 10h5m15 0H11'/%3E%3C/svg%3E");
+  background-color: currentColor;
+  -webkit-mask-image: var(--svg);
+  mask-image: var(--svg);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+.fluent-mdl2--people-repeat {
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2048 2048'%3E%3Cpath fill='%23000' d='M2048 1152v384h-384v-128h153q-41-62-108-95t-141-33q-54 0-106 18t-92 52t-65 81t-25 105h-128q0-85 34-155t93-122t133-79t156-28q52 0 102 11t96 35t85 56t69 77v-179zm-416 768q54 0 105-18t92-52t66-81t25-105h128q0 85-34 155t-93 122t-133 79t-156 28q-52 0-102-11t-96-35t-85-56t-69-77v179h-128v-384h384v128h-153q41 62 108 95t141 33M1408 768q-79 0-149 30t-122 82t-82 122t-31 149q0 93-41 174t-117 137q45 23 85 54t73 69l-102 79q-54-61-127-94t-155-34q-80 0-149 30t-122 82t-83 123t-30 149H128q0-73 20-141t57-129t90-108t118-81q-74-54-115-135t-42-174q0-79 30-149t82-122t122-83t150-30q92 0 173 41t136 116q38-75 97-134t135-98q-74-54-115-135t-42-174q0-79 30-149t82-122t122-83t150-30q79 0 149 30t122 82t83 123t30 149q0 92-41 173t-116 136q100 50 169 136t98 195h-134q-20-57-56-104t-83-81t-103-52t-118-19m0-640q-53 0-99 20t-82 55t-55 81t-20 100q0 53 20 99t55 82t81 55t100 20q53 0 99-20t82-55t55-81t20-100q0-53-20-99t-55-82t-81-55t-100-20M640 1408q53 0 99-20t82-55t55-81t20-100q0-53-20-100t-54-81t-82-55t-100-20q-53 0-99 20t-82 55t-55 81t-20 100q0 53 20 99t55 82t81 55t100 20'/%3E%3C/svg%3E");
+  background-color: currentColor;
+  -webkit-mask-image: var(--svg);
+  mask-image: var(--svg);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+.hugeicons--coins-bitcoin {
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' color='%23000'%3E%3Cpath d='M14 18a8 8 0 1 0 0-16a8 8 0 0 0 0 16M3.1 11a7.179 7.179 0 0 0 9.9 9.9'/%3E%3Cpath d='M12 10h3.5M12 10V6.5h2M12 10v3.5h2m1.5-3.5c.828 0 1.5-.784 1.5-1.75s-.672-1.75-1.5-1.75H14m1.5 3.5c.828 0 1.5.784 1.5 1.75s-.672 1.75-1.5 1.75H14m0 0v1m0-8v-1'/%3E%3C/g%3E%3C/svg%3E");
+  background-color: currentColor;
+  -webkit-mask-image: var(--svg);
+  mask-image: var(--svg);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
@@ -393,7 +437,11 @@ h1 {
     height: 40px;
     font-size: 1.6rem;
   }
-
+  #mascot-container {
+      height: 120px;
+      top: 0%;
+      left: 64%;
+  }
   .panel {
     display: flex;
     place-items: center;
@@ -407,7 +455,7 @@ h1 {
   }
 
   .panel h1 {
-    font-size: var(--fontmbh1);
+    font-size: var(--fontmbh1m);
     text-align: center;
     line-height: 4.5rem;
     gap: 15px;

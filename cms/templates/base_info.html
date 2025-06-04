@@ -1,5 +1,6 @@
 {% load static %}
 {% load wagtailcore_tags %}
+
 <!DOCTYPE html>
 <html lang="zh">
 
@@ -8,84 +9,176 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Awepay</title>
   <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- plugin layout -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- google fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+  <!-- show code -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css"
+    rel="stylesheet" />
+
+  <!-- custom css -->
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body data-bs-spy="scroll" data-bs-target="#sidebar-menu" data-bs-offset="100" tabindex="0">
-  <div class="container myheader">
-    <div class="top-box">
-      <nav class="navbar navbar-expand-lg my">
-        <!-- <div class="container-fluid"> -->
-        <a class="navbar-brand" href="#">
-          <h4>
-            {{ page.title }}
-          </h4>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-          aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% slugurl 'p2p' %}">P2P</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% slugurl 'credit-cards' %}">Credit Cards</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                Crypto
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{% slugurl 'bitfinex' %}">Bitfinex</a></li>
-                <li><a class="dropdown-item" href="{% slugurl 'awesome' %}">Awesomepay</a></li>
-              </ul>
-            </li>
-          </ul>
+  <div class="myheader">
+    <div class="container top-box">
+      <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid my">
+          <a class="navbar-brand" href="/">
+            <h4>
+              Awesome
+            </h4>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="streamline--horizontal-menu-circle"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            {% with page.get_parent.get_children.live.specific as main_pages %}
+            <ul class="navbar-nav">
+              {% for item in main_pages %}
+              {% if item.show_in_nav %}
+              {% if item.is_dropdown %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                  {{ item.title }}
+                </a>
+                <ul class="dropdown-menu">
+                  {% for sub in main_pages %}
+                  {% if sub.nav_parent and sub.nav_parent.id == item.id %}
+                  <li><a class="dropdown-item" href="{% pageurl sub %}">{{ sub.title }}</a></li>
+                  {% endif %}
+                  {% endfor %}
+                </ul>
+              </li>
+              {% elif not item.nav_parent %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% pageurl item %}">{{ item.title }}</a>
+              </li>
+              {% endif %}
+              {% endif %}
+              {% endfor %}
+            </ul>
+            {% endwith %}
+          </div>
         </div>
-        <!-- </div> -->
       </nav>
     </div>
-     <div class="bot-box">
-    <a href="/">
-      home
-    </a>
-    /
-    <span>{{ page.title }}</span>
-  </div>
+    <!-- <div class="container bot-box">
+      <a href="/">
+        <span class="octicon--home-fill-24"></span>
+      </a>
+      /
+      <span>{{ page.title }}</span>
+    </div> -->
   </div>
   {% block content %}
   {% endblock %}
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const sections = document.querySelectorAll("section[id^='section-']");
-    const menuLinks = document.querySelectorAll("#sidebar-menu a.nav-link");
 
-    function onScroll() {
-      let scrollPosition = window.scrollY + 100; // 100 是预留偏移
+  <button id="scrollToTopBtn" title="Back to top">↑</button>
+  <!-- plugin layout -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.min.js"></script>
 
-      sections.forEach((section) => {
-        if (scrollPosition >= section.offsetTop && scrollPosition < section.offsetTop + section.offsetHeight) {
-          menuLinks.forEach((link) => {
-            link.classList.remove("active");
-            if (link.getAttribute("href") === `#${section.id}`) {
-              link.classList.add("active");
+  <!-- show code -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // === 高亮菜单 + 加 icon ===
+      function highlightByHash() {
+        const currentHash = window.location.hash;
+        const menuLinks = document.querySelectorAll("#sidebar-menu a.nav-link");
+
+        menuLinks.forEach(link => {
+          const href = link.getAttribute("href");
+          const isActive = href === currentHash;
+          const parentDiv = link.closest(".icon-btn");
+
+          link.classList.toggle("active", isActive);
+
+          if (parentDiv) {
+            const oldIcon = parentDiv.querySelector(".hugeicons--pointing-right-03");
+            if (oldIcon) oldIcon.remove();
+
+            if (isActive) {
+              const icon = document.createElement("span");
+              icon.className = "hugeicons--pointing-right-03";
+              parentDiv.insertBefore(icon, link);
             }
-          });
-        }
-      });
-    }
+          }
+        });
+      }
 
-    window.addEventListener("scroll", onScroll);
-  });
-</script>
+      // === 滚动自动判断当前 section 并更新 hash + 菜单高亮 ===
+      function handleScrollHighlight() {
+        const activeTab = document.querySelector(".tab-pane.show.active");
+        if (!activeTab) return;
+
+        const sections = activeTab.querySelectorAll("section[id], div.subsection[id]");
+
+        let closestId = null;
+        let minDistance = Infinity;
+
+        sections.forEach((section) => {
+          const rect = section.getBoundingClientRect();
+          const distance = Math.abs(rect.top);
+          if (rect.top >= 0 && distance < minDistance) {
+            closestId = section.id;
+            minDistance = distance;
+          }
+        });
+
+        if (closestId) {
+          if (window.location.hash !== `#${closestId}`) {
+            history.replaceState(null, null, `#${closestId}`);
+            highlightByHash();
+          }
+        }
+      }
+
+      // 初始加载 + hash 监听
+      highlightByHash();
+      window.addEventListener("hashchange", highlightByHash);
+
+      // 滚动监听：显示“回到顶部” + 更新高亮菜单
+      const scrollBtn = document.getElementById("scrollToTopBtn");
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 50) {
+          scrollBtn.style.display = "block";
+        } else {
+          scrollBtn.style.display = "none";
+        }
+        handleScrollHighlight();
+      });
+
+      // 点击按钮滚动到顶部
+      scrollBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      // tab 切换后也要重新高亮
+      document.querySelectorAll('button[data-bs-toggle="tab"]').forEach(tabBtn => {
+        tabBtn.addEventListener("shown.bs.tab", () => {
+          setTimeout(() => {
+            handleScrollHighlight();
+          }, 100);
+        });
+      });
+    });
+  </script>
+
+</body>
 
 </html>

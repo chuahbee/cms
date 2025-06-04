@@ -2,7 +2,7 @@
 from django.db import models
 from wagtail.models import Page
 from wagtail.fields import RichTextField
-from wagtail.admin.panels import FieldPanel
+from wagtail.admin.panels import FieldPanel, PageChooserPanel
 from wagtail.api import APIField
 from wagtail.images.api.fields import ImageRenditionField
 
@@ -77,45 +77,50 @@ class WorkPage(Page):
     parent_page_types = ["portfolio.WorkIndexPage"]
 
 
-class CryptoIndexPage(Page):
-    parent_page_types = ["home.HomePage"]  # 只允许挂在 HomePage 下
-    subpage_types = ["portfolio.BitfinexIndexPage", "portfolio.AwesomeIndexPage"]
-
-    # 可选：页面内容可以是空的，也可以重定向或展示子页面列表
-    def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request, *args, **kwargs)
-        context["crypto_sections"] = self.get_children().live().specific()
-        return context
-
-
 class BaseSectionPage(Page):
-    body = RichTextField()
+    body = RichTextField(blank=True)
     code_block = models.TextField(blank=True)
+    is_code = models.BooleanField(default=True, help_text="show code")
 
     content_panels = Page.content_panels + [
         FieldPanel("body"),
         FieldPanel("code_block"),
+        FieldPanel("is_code"),
     ]
 
     class Meta:
         abstract = True  # 不会生成页面类型，只能继承
 
+    @property
+    def anchor_id(self):
+        # self.get_parent() 是 Tab 页
+        tab_slug = self.get_parent().slug
+        return f"{tab_slug}-section-{self.slug}"
+
 
 class BaseSubsectionPage(Page):
-    body = RichTextField()
+    body = RichTextField(blank=True)
     code_block = models.TextField(blank=True)
+    is_code = models.BooleanField(default=True, help_text="is show code?")
 
     content_panels = Page.content_panels + [
         FieldPanel("body"),
         FieldPanel("code_block"),
+        FieldPanel("is_code"),
     ]
 
     class Meta:
         abstract = True
 
+    @property
+    def anchor_id(self):
+        tab_slug = self.get_parent().get_parent().slug  # Tab Page
+        section_slug = self.get_parent().slug           # Section Page
+        return f"{tab_slug}-section-{section_slug}-{self.slug}"
+
 
 class TabPage(Page):
-    body = RichTextField()
+    body = RichTextField(blank=True)
     code_block = models.TextField(blank=True)
 
     content_panels = Page.content_panels + [
@@ -123,7 +128,8 @@ class TabPage(Page):
         FieldPanel("code_block"),
     ]
 
-    parent_page_types = ["portfolio.AwesomeIndexPage", "portfolio.BitfinexIndexPage", "CreditCardsIndexPage", "P2PIndexPage"]
+    # 如果有新页面：parent_page_types这里加上新页面名字
+    parent_page_types = ["portfolio.AwesomeIndexPage", "portfolio.BitfinexIndexPage", "CreditCardsIndexPage", "P2PIndexPage", "CryptoIndexPage"]
     subpage_types = ["portfolio.SectionPage"]
 
 
@@ -136,16 +142,33 @@ class SubsectionPage(BaseSubsectionPage):
     parent_page_types = ["portfolio.SectionPage"]
 
 
-class AwesomeIndexPage(Page):
+class BaseIndexPage(Page):
     intro = RichTextField(blank=True)
     code_block = models.TextField(blank=True)
+    show_in_nav = models.BooleanField(default=True)
+    is_dropdown = models.BooleanField(default=False)
+
+    nav_parent = models.ForeignKey(
+        "wagtailcore.Page",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text="if no setting, it will auto become a dropdwon menu"
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel("intro"),
         FieldPanel("code_block"),
+        FieldPanel("show_in_nav"),
+        FieldPanel("is_dropdown"),
+        PageChooserPanel("nav_parent"),
     ]
 
     subpage_types = ["portfolio.TabPage"]
+
+    class Meta:
+        abstract = True  # 不会出现在 admin 中
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
@@ -156,72 +179,42 @@ class AwesomeIndexPage(Page):
                 .specific()
         )
         return context
+
+
+# no section
+# class CryptoIndexPage(Page):
+#     parent_page_types = ["home.HomePage"]  # 只允许挂在 HomePage 下
+#     subpage_types = ["portfolio.BitfinexIndexPage", "portfolio.AwesomeIndexPage"]
+
+#     # 可选：页面内容可以是空的，也可以重定向或展示子页面列表
+#     def get_context(self, request, *args, **kwargs):
+#         context = super().get_context(request, *args, **kwargs)
+#         context["crypto_sections"] = self.get_children().live().specific()
+#         return context
+
+
+# 如果要加类似AwesomeIndexPage，BitfinexIndexPage，CreditCardsIndexPage，P2PIndexPage新页面
+# 譬如 1： class 页面名称(BaseIndexPage):
+#     pass
+# 如果页面要tab 就要在class TabPage(Page)/parent_page_types里加上新页面名称
+
+class CryptoIndexPage(BaseIndexPage):
+    pass
+
+class AwesomeIndexPage(BaseIndexPage):
+    pass
     
 
-class BitfinexIndexPage(Page):
-    intro = RichTextField(blank=True)
-    code_block = models.TextField(blank=True)
-
-    content_panels = Page.content_panels + [
-        FieldPanel("intro"),
-        FieldPanel("code_block"),
-    ]
-
-    subpage_types = ["portfolio.TabPage"]
-
-    def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request, *args, **kwargs)
-        context["pages"] = (
-            self.get_children()
-                .live()
-                .order_by("-first_published_at")
-                .specific()
-        )
-        return context
+class BitfinexIndexPage(BaseIndexPage):
+    pass
     
 
-class CreditCardsIndexPage(Page):
-    intro = RichTextField(blank=True)
-    code_block = models.TextField(blank=True)
-
-    content_panels = Page.content_panels + [
-        FieldPanel("intro"),
-        FieldPanel("code_block"),
-    ]
-
-    subpage_types = ["portfolio.TabPage"]
-
-    def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request, *args, **kwargs)
-        context["pages"] = (
-            self.get_children()
-                .live()
-                .order_by("-first_published_at")
-                .specific()
-        )
-        return context
+class CreditCardsIndexPage(BaseIndexPage):
+    pass
     
 
-class P2PIndexPage(Page):
-    intro = RichTextField(blank=True)
-    code_block = models.TextField(blank=True)
-
-    content_panels = Page.content_panels + [
-        FieldPanel("intro"),
-        FieldPanel("code_block"),
-    ]
-
-    subpage_types = ["portfolio.TabPage"]
-
-    def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request, *args, **kwargs)
-        context["pages"] = (
-            self.get_children()
-                .live()
-                .order_by("-first_published_at")
-                .specific()
-        )
-        return context
+class P2PIndexPage(BaseIndexPage):
+    pass
     
 
 class Task(models.Model):
