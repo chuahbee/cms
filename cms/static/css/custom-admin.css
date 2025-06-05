@@ -75,3 +75,34 @@
   background-repeat: no-repeat;
   background-position: center;
 } */
+
+/* 只对 login 页面有效 */
+body.login {
+  background: linear-gradient(to bottom right, #c9eeee, #54a58b);
+}
+
+body.login .login-logo {
+  background-image: url("/static/images/awepaylogo_pay_al.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100px;
+  margin-bottom: 20px;
+}
+
+body.login .icon-wagtail {
+  display: none !important;
+}
+
+body.login .login-heading {
+  font-size: 26px;
+  font-weight: bold;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.login .content-wrapper {
+  background:var(--brown);
+}
+

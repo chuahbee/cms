@@ -81,11 +81,22 @@ class WorkPage(Page):
 class BaseSectionPage(Page):
     body = RichTextField(blank=True)
     code_block = models.TextField(blank=True)
-    is_code = models.BooleanField(default=True, help_text="show code")
+    is_code = models.BooleanField(default=True, help_text="if you want to show code layout, please check the box below")
 
     content_panels = Page.content_panels + [
+        HelpPanel(content=mark_safe(
+            '<a href="#" onclick="window.open(\'/static/images/section_info.jpg\', \'_blank\', \'width=800,height=600\'); return false;">'
+            '<img class="help-img" src="/static/images/howtodo.jpg" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;"><span class="hugeicons--touchpad-04"></span>'
+            '</a><br/>'
+        )),
         FieldPanel("body"),
         FieldPanel("code_block"),
+
+        HelpPanel(content=mark_safe(
+            '<a href="#" onclick="window.open(\'/static/images/iscode.jpg\', \'_blank\', \'width=800,height=600\'); return false;">'
+            '<img class="help-img" src="/static/images/howtodo.jpg" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;"><span class="hugeicons--touchpad-04"></span>'
+            '</a><br/>'
+        )),
         FieldPanel("is_code"),
     ]
 
@@ -102,11 +113,22 @@ class BaseSectionPage(Page):
 class BaseSubsectionPage(Page):
     body = RichTextField(blank=True)
     code_block = models.TextField(blank=True)
-    is_code = models.BooleanField(default=True, help_text="is show code?")
+    is_code = models.BooleanField(default=True, help_text="if you want to show code layout, please check the box below")
 
     content_panels = Page.content_panels + [
+        HelpPanel(content=mark_safe(
+            '<a href="#" onclick="window.open(\'/static/images/section_level.jpg\', \'_blank\', \'width=800,height=600\'); return false;">'
+            '<img class="help-img" src="/static/images/howtodo.jpg" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;"><span class="hugeicons--touchpad-04"></span>'
+            '</a><br/>'
+        )),
         FieldPanel("body"),
         FieldPanel("code_block"),
+
+        HelpPanel(content=mark_safe(
+            '<a href="#" onclick="window.open(\'/static/images/iscode.jpg\', \'_blank\', \'width=800,height=600\'); return false;">'
+            '<img class="help-img" src="/static/images/howtodo.jpg" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;"><span class="hugeicons--touchpad-04"></span>'
+            '</a><br/>'
+        )),
         FieldPanel("is_code"),
     ]
 
@@ -122,9 +144,15 @@ class BaseSubsectionPage(Page):
 
 class TabPage(Page):
     body = RichTextField(blank=True)
-    code_block = models.TextField(blank=True)
+    code_block = models.TextField(blank=True, help_text="if you want to show code, please check the box below")
 
     content_panels = Page.content_panels + [
+        HelpPanel(content=mark_safe(
+            '<a href="#" onclick="window.open(\'/static/images/section_title.jpg\', \'_blank\', \'width=800,height=600\'); return false;">'
+            '<img class="help-img" src="/static/images/howtodo.jpg" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;"><span class="hugeicons--touchpad-04"></span>'
+            '</a><br/>'
+        )),
+
         FieldPanel("body"),
         FieldPanel("code_block"),
     ]
@@ -145,7 +173,7 @@ class SubsectionPage(BaseSubsectionPage):
 
 class BaseIndexPage(Page):
     intro = RichTextField(blank=True)
-    code_block = models.TextField(blank=True)
+    code_block = models.TextField(blank=True, help_text="if you want to show code, please check the box below")
     show_in_nav = models.BooleanField(default=True)
     is_dropdown = models.BooleanField(default=False)
 

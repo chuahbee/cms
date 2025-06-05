@@ -46,9 +46,8 @@
         {{ subsection.specific.body|richtext }}
 
         {% if subsection.specific.code_block %}
-          {% if section.specific.is_code %}
-          <pre
-            class="line-numbers"><code class="language-javascript">{{ subsection.specific.code_block|escape }}</code></pre>
+          {% if subsection.specific.is_code %}
+          <pre class="line-numbers"><code class="language-javascript">{{ subsection.specific.code_block|escape }}</code></pre>
           {% else %}
           <div class="gap-20">{{ subsection.specific.code_block|safe }}</div>
           {% endif %}
