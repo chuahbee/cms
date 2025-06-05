@@ -22,7 +22,10 @@
         <!-- 有子链接时，例如 Crypto -->
         <div class="centerBox2">
           <div class="centerBoxLink">
-            <span class="{{ link.icon_class }}"></span>
+            <!-- <span class="{{ link.icon_class }}"></span> -->
+            {% if link.icon %}
+              {% image link.icon fill-100x100 alt=link.title %}
+            {% endif %}
             {{ link.title }}
           </div>
           <div class="innerBox">
@@ -41,7 +44,10 @@
         {% else %}
         <!-- 没有子链接时，例如 P2P、Credit Card -->
         <a href="{% pageurl link.url %}" class="centerBoxLink">
-          <span class="{{ link.icon_class }}"></span>
+          {% if link.icon %}
+            {% image link.icon fill-100x100 alt=link.title %}
+          {% endif %}
+          <!-- <span class="{{ link.icon_class }}"></span> -->
           {{ link.title }}
           <span class="next-right"></span>
         </a>
@@ -71,7 +77,10 @@
         {% endfor %}
         {% else %}
         <a href="{% pageurl link.url %}" class="centerBoxLink">
-          <span class="{{ link.icon_class }}"></span>
+          {% if link.icon %}
+            {% image link.icon fill-100x100 alt=link.title %}
+          {% endif %}
+          <!-- <span class="{{ link.icon_class }}"></span> -->
           Let go!
           <span class="next-right"></span>
         </a>

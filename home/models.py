@@ -22,8 +22,13 @@ class HomeSubLink(models.Model):
     logo = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL)
 
     panels = [
+        HelpPanel(content=mark_safe("<i>Button Title</i>")),
         FieldPanel('title'),
+
+        HelpPanel(content=mark_safe("<i>Button Link</i>")),
         FieldPanel('url'),
+
+        HelpPanel(content=mark_safe("<i>Button logo or icon</i>")),
         FieldPanel('logo'),
     ]
 
@@ -31,15 +36,36 @@ class HomeSubLink(models.Model):
 class HomeLink(ClusterableModel):
     homepage = ParentalKey('home.HomePage', on_delete=models.CASCADE, related_name='links')
     title = models.CharField(max_length=100)
-    icon_class = models.CharField(max_length=100, blank=True)
+    # icon_class = models.CharField(max_length=100, blank=True)
+    icon = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL
+    )
     url = models.ForeignKey('wagtailcore.Page', null=True, blank=True, on_delete=models.SET_NULL)
 
     panels = [
         FieldPanel('title'),
-        FieldPanel('icon_class'),
+
+        # HelpPanel(content=mark_safe("<img src='/static/images/prefix.jpg' alt='说明图片'><br/><i>Get (Icon class) <a href='https://icon-sets.iconify.design/' target='_blank' rel='noopener noreferrer'>Click here</a> *icon set ( Huge Icons )</i>")),
+        # FieldPanel('icon_class'),
+
+        HelpPanel(content=mark_safe(
+            '<a href="#" onclick="window.open(\'/static/images/icon_tip.jpg\', \'_blank\', \'width=800,height=600\'); return false;">'
+            '<img class="help-img" src="/static/images/howtodo.jpg" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;"><span class="hugeicons--touchpad-04"></span>'
+            '</a><br/>'
+            '<i>Get Icon <a href="https://icon-sets.iconify.design/" target="_blank" rel="noopener noreferrer">Click here</a> *icon set ( Huge Icons )</i>'
+        )),
+        FieldPanel('icon'),
+
+        HelpPanel(content=mark_safe("<i>Select the page to link when this item is clicked.</i>")),
         FieldPanel('url'),
+
+        HelpPanel(content=mark_safe("<i>These links will appear under the main link, like Awesome and Bitfinex under Crypto.</i>")),
         InlinePanel('sublinks', label='Sub Links'),
     ]
+
 
 class HomePage(Page):
     intro = RichTextField(blank=True) 
@@ -55,15 +81,27 @@ class HomePage(Page):
     )
 
     content_panels = Page.content_panels + [
-        HelpPanel(content=mark_safe('<img src="/static/images/prefix.jpg" alt="说明图片">')),
+        HelpPanel(content=mark_safe(
+            '<a href="#" class="help-img" onclick="window.open(\'/static/images/prefix.jpg\', \'_blank\', \'width=800,height=600\'); return false;">'
+            '<img src="/static/images/howtodo.jpg" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;">'
+            '<span class="hugeicons--touchpad-04"></span></a>'
+        )),
         FieldPanel('welcome_prefix'),
 
-        HelpPanel(content=mark_safe('<img src="/static/images/brandname.jpg" alt="说明图片">')),
+        HelpPanel(content=mark_safe(
+            '<a href="#" class="help-img" onclick="window.open(\'/static/images/brandname.jpg\', \'_blank\', \'width=800,height=600\'); return false;">'
+            '<img src="/static/images/howtodo.jpg" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;">'
+            '<span class="hugeicons--touchpad-04"></span></a>'
+        )),
         FieldPanel('brand_name'),
 
         FieldPanel('intro'),
 
-        HelpPanel(content=mark_safe('<img src="/static/images/linkdetials.jpg" alt="说明图片">')),
+        HelpPanel(content=mark_safe(
+            '<a href="#" class="help-img" onclick="window.open(\'/static/images/linkdetials.jpg\', \'_blank\', \'width=800,height=600\'); return false;">'
+            '<img src="/static/images/howtodo.jpg" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;">'
+            '<span class="hugeicons--touchpad-04"></span></a>'
+        )),
         InlinePanel('links', label='Home Links'),
 
         # HelpPanel(content=mark_safe('<img src="/static/images/sample1.jpg" alt="说明图片">')),
