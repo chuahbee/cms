@@ -4,9 +4,9 @@
 
 {% block content %}
 <div id="wrapper" class="flex ">
-{% if page.image %}
+  {% if page.image %}
   <img src="{{ page.image.url }}" alt="{{ page.image.title }}">
-{% endif %}
+  {% endif %}
 
   <!-- 0. INTRO -->
   <section class="panel intro">
@@ -18,18 +18,20 @@
     <div class="centerBox">
       <div class="innerBox">
         {% for link in page.links.all %}
+        {% if link.is_visible %}
         {% if link.sublinks.all %}
         <!-- 有子链接时，例如 Crypto -->
         <div class="centerBox2">
           <div class="centerBoxLink">
             <!-- <span class="{{ link.icon_class }}"></span> -->
             {% if link.icon %}
-              {% image link.icon fill-100x100 alt=link.title %}
+            {% image link.icon fill-100x100 alt=link.title %}
             {% endif %}
             {{ link.title }}
           </div>
           <div class="innerBox">
             {% for sub in link.sublinks.all %}
+            {% if sub.is_visible %}
             <a href="{% pageurl sub.url %}" class="centerBoxLink">
               {% if sub.logo %}
               {% image sub.logo fill-100x100 alt=sub.title %}
@@ -38,6 +40,7 @@
               {{ sub.title }}
               <span class="next-right"></span>
             </a>
+            {% endif %}
             {% endfor %}
           </div>
         </div>
@@ -45,12 +48,13 @@
         <!-- 没有子链接时，例如 P2P、Credit Card -->
         <a href="{% pageurl link.url %}" class="centerBoxLink">
           {% if link.icon %}
-            {% image link.icon fill-100x100 alt=link.title %}
+          {% image link.icon fill-100x100 alt=link.title %}
           {% endif %}
           <!-- <span class="{{ link.icon_class }}"></span> -->
           {{ link.title }}
           <span class="next-right"></span>
         </a>
+        {% endif %}
         {% endif %}
         {% endfor %}
       </div>
@@ -58,6 +62,7 @@
   </section>
 
   {% for link in page.links.all %}
+  {% if link.is_visible %}
   <section id="{{ link.title|slugify }}" class="panel {{ link.title|lower }}">
     <h1>
       <span class="span">AWEPAY</span>
@@ -67,6 +72,7 @@
       <div class="innerBox">
         {% if link.sublinks.all %}
         {% for sub in link.sublinks.all %}
+        {% if sub.is_visible %}
         <a href="{% pageurl sub.url %}" class="centerBoxLink">
           {% if sub.logo %}
           {% image sub.logo fill-100x100 alt=sub.title %}
@@ -74,11 +80,12 @@
           {{ sub.title }}
           <span class="next-right"></span>
         </a>
+        {% endif %}
         {% endfor %}
         {% else %}
         <a href="{% pageurl link.url %}" class="centerBoxLink">
           {% if link.icon %}
-            {% image link.icon fill-100x100 alt=link.title %}
+          {% image link.icon fill-100x100 alt=link.title %}
           {% endif %}
           <!-- <span class="{{ link.icon_class }}"></span> -->
           Let go!
@@ -88,6 +95,7 @@
       </div>
     </div>
   </section>
+  {% endif %}
   {% endfor %}
 
 

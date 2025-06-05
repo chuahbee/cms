@@ -15,7 +15,9 @@
   </li>
   {% for link in page.links.all %}
     <li data-index="{{ forloop.counter }}">
+      {% if link.is_visible %}
       <a href="#{{ link.title|slugify }}">{{ link.title|upper }}</a>
+      {% endif %}
     </li>
   {% endfor %}
 </ul>

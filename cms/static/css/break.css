@@ -55,22 +55,18 @@ img {
 
 .intro {
   background:var(--coral) url("../images/333.png")no-repeat center center/contain;
-  /* background:var(--coral); */
 }
 
-.p2p {
+#p2p {
   background:var(--cream) url("../images/333.png")no-repeat center center/contain;
-  /* background: var(--cream); */
 }
 
-.creditcard {
+#credit-cards {
   background:var(--mint) url("../images/333.png")no-repeat center center/contain;
-  /* background: var(--mint); */
 }
 
-.crypto {
+#crypto {
   background:var(--lightorange) url("../images/333.png")no-repeat center center/contain;
-  /* background: var(--lightorange); */
 }
 
 /* 箭头按钮 */

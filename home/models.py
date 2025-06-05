@@ -17,33 +17,39 @@ from django.utils.safestring import mark_safe
 # 子链接
 class HomeSubLink(models.Model):
     page = ParentalKey('HomeLink', on_delete=models.CASCADE, related_name='sublinks')
-    title = models.CharField(max_length=100)
-    url = models.ForeignKey('wagtailcore.Page', null=True, on_delete=models.SET_NULL)
-    logo = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL)
+    title = models.CharField(max_length=100, help_text="Button Title")
+    url = models.ForeignKey('wagtailcore.Page', null=True, on_delete=models.SET_NULL, help_text="Button Link")
+    logo = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, help_text="Button logo or icon")
+    is_visible = models.BooleanField(default=True, help_text="Show this sub link on the homepage?")
 
     panels = [
-        HelpPanel(content=mark_safe("<i>Button Title</i>")),
         FieldPanel('title'),
-
-        HelpPanel(content=mark_safe("<i>Button Link</i>")),
         FieldPanel('url'),
-
-        HelpPanel(content=mark_safe("<i>Button logo or icon</i>")),
         FieldPanel('logo'),
+        FieldPanel('is_visible'),
+
     ]
 
 # 主链接
 class HomeLink(ClusterableModel):
     homepage = ParentalKey('home.HomePage', on_delete=models.CASCADE, related_name='links')
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, help_text="button Title")
     # icon_class = models.CharField(max_length=100, blank=True)
     icon = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
         blank=True,
-        on_delete=models.SET_NULL
+        on_delete=models.SET_NULL,
     )
-    url = models.ForeignKey('wagtailcore.Page', null=True, blank=True, on_delete=models.SET_NULL)
+    url = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        help_text="Select the page to link when this item is clicked."
+    )
+    is_visible = models.BooleanField(default=True, help_text="Show this main link on the homepage?")
+
 
     panels = [
         FieldPanel('title'),
@@ -55,15 +61,16 @@ class HomeLink(ClusterableModel):
             '<a href="#" onclick="window.open(\'/static/images/icon_tip.jpg\', \'_blank\', \'width=800,height=600\'); return false;">'
             '<img class="help-img" src="/static/images/howtodo.jpg" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;"><span class="hugeicons--touchpad-04"></span>'
             '</a><br/>'
-            '<i>Get Icon <a href="https://icon-sets.iconify.design/" target="_blank" rel="noopener noreferrer">Click here</a> *icon set ( Huge Icons )</i>'
+            '<i class="help">Get Icon <a href="https://icon-sets.iconify.design/" target="_blank" rel="noopener noreferrer">Click here</a> *icon set ( Huge Icons )</i>'
         )),
         FieldPanel('icon'),
 
-        HelpPanel(content=mark_safe("<i>Select the page to link when this item is clicked.</i>")),
         FieldPanel('url'),
 
-        HelpPanel(content=mark_safe("<i>These links will appear under the main link, like Awesome and Bitfinex under Crypto.</i>")),
+        FieldPanel('is_visible'),
+
         InlinePanel('sublinks', label='Sub Links'),
+
     ]
 
 
