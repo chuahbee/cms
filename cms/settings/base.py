@@ -12,6 +12,13 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from decouple import config, Csv
+
+SECRET_KEY = config("DJANGO_SECRET_KEY")
+
+DEBUG = config("DJANGO_DEBUG", default=False, cast=bool)
+
+ALLOWED_HOSTS = config("DJANGO_ALLOWED_HOSTS", cast=Csv())
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
@@ -93,8 +100,17 @@ WSGI_APPLICATION = "cms.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        # "ENGINE": "django.db.backends.sqlite3",
+        # "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": config("DJANGO_DB_NAME"),
+        "USER": config("DJANGO_DB_USER"),
+        "PASSWORD": config("DJANGO_DB_PASSWORD"),
+        "HOST": config("DJANGO_DB_HOST", default="localhost"),
+        "PORT": config("DJANGO_DB_PORT", default="3306"),
+        "OPTIONS": {
+            "charset": "utf8mb4",
+        },
     }
 }
 
