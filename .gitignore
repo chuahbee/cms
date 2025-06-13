@@ -6,10 +6,12 @@ __pycache__/
 
 # SQLite DB
 *.sqlite3
+*.json
 
 # Virtual environment
 venv/
 .env/
+.env
 .venv/
 
 # Editor & system files
@@ -20,8 +22,12 @@ Thumbs.db
 # Node modules (frontend projects)
 node_modules/
 
-# Django media uploads (optional)
-media/
+# 忽略 media 文件夹下所有内容
+media/*
+
+# 但允许 media/images 文件夹及其内容被加入
+!media/images/
+!media/images/**
 
 # Logs
 *.log
