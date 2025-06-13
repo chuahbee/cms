@@ -13,6 +13,7 @@ from modelcluster.models import ClusterableModel
 from wagtail.fields import StreamBlock
 from wagtail.snippets.models import register_snippet
 from django.utils.safestring import mark_safe
+from django.templatetags.static import static
 
 # 子链接
 class HomeSubLink(models.Model):
@@ -58,8 +59,8 @@ class HomeLink(ClusterableModel):
         # FieldPanel('icon_class'),
 
         HelpPanel(content=mark_safe(
-            '<a href="#" onclick="window.open(\'/static/images/icon_tip.jpg\', \'_blank\', \'width=800,height=600\'); return false;">'
-            '<img class="help-img" src="/static/images/howtodo.jpg" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;"><span class="hugeicons--touchpad-04"></span>'
+            f'<a href="#" onclick="window.open(\'{static("images/icon_tip.jpg")}\', \'_blank\', \'width=800,height=600\'); return false;">'
+            f'<img class="help-img" src="{static("images/howtodo.jpg")}" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;"><span class="hugeicons--touchpad-04"></span>'
             '</a><br/>'
             '<i class="help">Get Icon <a href="https://icon-sets.iconify.design/" target="_blank" rel="noopener noreferrer">Click here</a> *icon set ( Huge Icons )</i>'
         )),
@@ -89,15 +90,15 @@ class HomePage(Page):
 
     content_panels = Page.content_panels + [
         HelpPanel(content=mark_safe(
-            '<a href="#" class="help-img" onclick="window.open(\'/static/images/prefix.jpg\', \'_blank\', \'width=800,height=600\'); return false;">'
-            '<img src="/static/images/howtodo.jpg" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;">'
+            f'<a href="#" class="help-img" onclick="window.open(\'{static("images/prefix.jpg")}\', \'_blank\', \'width=800,height=600\'); return false;">'
+            f'<img src="{static("images/howtodo.jpg")}" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;">'
             '<span class="hugeicons--touchpad-04"></span></a>'
         )),
         FieldPanel('welcome_prefix'),
 
         HelpPanel(content=mark_safe(
-            '<a href="#" class="help-img" onclick="window.open(\'/static/images/brandname.jpg\', \'_blank\', \'width=800,height=600\'); return false;">'
-            '<img src="/static/images/howtodo.jpg" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;">'
+            f'<a href="#" class="help-img" onclick="window.open(\'{static("images/brandname.jpg")}\', \'_blank\', \'width=800,height=600\'); return false;">'
+            f'<img src="{static("images/howtodo.jpg")}" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;">'
             '<span class="hugeicons--touchpad-04"></span></a>'
         )),
         FieldPanel('brand_name'),
@@ -105,8 +106,8 @@ class HomePage(Page):
         FieldPanel('intro'),
 
         HelpPanel(content=mark_safe(
-            '<a href="#" class="help-img" onclick="window.open(\'/static/images/linkdetials.jpg\', \'_blank\', \'width=800,height=600\'); return false;">'
-            '<img src="/static/images/howtodo.jpg" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;">'
+            f'<a href="#" class="help-img" onclick="window.open(\'{static("images/linkdetials.jpg")}\', \'_blank\', \'width=800,height=600\'); return false;">'
+            f'<img src="{static("images/howtodo.jpg")}" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;">'
             '<span class="hugeicons--touchpad-04"></span></a>'
         )),
         InlinePanel('links', label='Home Links'),

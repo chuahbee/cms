@@ -46,7 +46,8 @@
         </div>
         {% else %}
         <!-- 没有子链接时，例如 P2P、Credit Card -->
-        <a href="{% pageurl link.url %}" class="centerBoxLink">
+         {% with url=link.url %}
+        <a href="{% if url %}{% pageurl link.url %}{% else %}#{% endif %}" class="centerBoxLink">
           {% if link.icon %}
           {% image link.icon fill-100x100 alt=link.title %}
           {% endif %}
@@ -54,6 +55,7 @@
           {{ link.title }}
           <span class="next-right"></span>
         </a>
+        {% endwith %}
         {% endif %}
         {% endif %}
         {% endfor %}
@@ -83,7 +85,8 @@
         {% endif %}
         {% endfor %}
         {% else %}
-        <a href="{% pageurl link.url %}" class="centerBoxLink">
+        {% with url=link.url %}
+        <a href="{% if url %}{% pageurl link.url %}{% else %}#{% endif %}" class="centerBoxLink">
           {% if link.icon %}
           {% image link.icon fill-100x100 alt=link.title %}
           {% endif %}
@@ -91,6 +94,7 @@
           Let go!
           <span class="next-right"></span>
         </a>
+        {% endwith %}
         {% endif %}
       </div>
     </div>

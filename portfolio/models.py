@@ -6,7 +6,7 @@ from wagtail.admin.panels import FieldPanel, PageChooserPanel, HelpPanel
 from wagtail.api import APIField
 from wagtail.images.api.fields import ImageRenditionField
 from django.utils.safestring import mark_safe
-
+from django.templatetags.static import static
 
 class WorkIndexPage(Page):
     intro = RichTextField(blank=True)
@@ -85,16 +85,16 @@ class BaseSectionPage(Page):
 
     content_panels = Page.content_panels + [
         HelpPanel(content=mark_safe(
-            '<a href="#" onclick="window.open(\'/static/images/section_info.jpg\', \'_blank\', \'width=800,height=600\'); return false;">'
-            '<img class="help-img" src="/static/images/howtodo.jpg" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;"><span class="hugeicons--touchpad-04"></span>'
+            f'<a href="#" onclick="window.open(\'{static("images/section_info.jpg")}\', \'_blank\', \'width=800,height=600\'); return false;">'
+            f'<img class="help-img" src="{static("images/howtodo.jpg")}" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;"><span class="hugeicons--touchpad-04"></span>'
             '</a><br/>'
         )),
         FieldPanel("body"),
         FieldPanel("code_block"),
 
         HelpPanel(content=mark_safe(
-            '<a href="#" onclick="window.open(\'/static/images/iscode.jpg\', \'_blank\', \'width=800,height=600\'); return false;">'
-            '<img class="help-img" src="/static/images/howtodo.jpg" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;"><span class="hugeicons--touchpad-04"></span>'
+            f'<a href="#" onclick="window.open(\'{static("images/iscode.jpg")}\', \'_blank\', \'width=800,height=600\'); return false;">'
+            f'<img class="help-img" src="{static("images/howtodo.jpg")}" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;"><span class="hugeicons--touchpad-04"></span>'
             '</a><br/>'
         )),
         FieldPanel("is_code"),
@@ -117,16 +117,16 @@ class BaseSubsectionPage(Page):
 
     content_panels = Page.content_panels + [
         HelpPanel(content=mark_safe(
-            '<a href="#" onclick="window.open(\'/static/images/section_level.jpg\', \'_blank\', \'width=800,height=600\'); return false;">'
-            '<img class="help-img" src="/static/images/howtodo.jpg" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;"><span class="hugeicons--touchpad-04"></span>'
+            f'<a href="#" onclick="window.open(\'{static("images/section_level.jpg")}\', \'_blank\', \'width=800,height=600\'); return false;">'
+            f'<img class="help-img" src="{static("images/howtodo.jpg")}" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;"><span class="hugeicons--touchpad-04"></span>'
             '</a><br/>'
         )),
         FieldPanel("body"),
         FieldPanel("code_block"),
 
         HelpPanel(content=mark_safe(
-            '<a href="#" onclick="window.open(\'/static/images/iscode.jpg\', \'_blank\', \'width=800,height=600\'); return false;">'
-            '<img class="help-img" src="/static/images/howtodo.jpg" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;"><span class="hugeicons--touchpad-04"></span>'
+            f'<a href="#" onclick="window.open(\'{static("images/iscode.jpg")}\', \'_blank\', \'width=800,height=600\'); return false;">'
+            f'<img class="help-img" src="{static("images/howtodo.jpg")}" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;"><span class="hugeicons--touchpad-04"></span>'
             '</a><br/>'
         )),
         FieldPanel("is_code"),
@@ -148,8 +148,8 @@ class TabPage(Page):
 
     content_panels = Page.content_panels + [
         HelpPanel(content=mark_safe(
-            '<a href="#" onclick="window.open(\'/static/images/section_title.jpg\', \'_blank\', \'width=800,height=600\'); return false;">'
-            '<img class="help-img" src="/static/images/howtodo.jpg" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;"><span class="hugeicons--touchpad-04"></span>'
+            f'<a href="#" onclick="window.open(\'{static("images/section_title.jpg")}\', \'_blank\', \'width=800,height=600\'); return false;">'
+            f'<img class="help-img" src="{static("images/howtodo.jpg")}" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;"><span class="hugeicons--touchpad-04"></span>'
             '</a><br/>'
         )),
 
@@ -194,23 +194,23 @@ class BaseIndexPage(Page):
         FieldPanel("code_block"),
 
         HelpPanel(content=mark_safe(
-            '<a href="#" class="help-img" onclick="window.open(\'/static/images/main_menu.jpg\', \'_blank\', \'width=800,height=600\'); return false;">'
-            '<img src="/static/images/howtodo.jpg" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;">'
+            f'<a href="#" class="help-img" onclick="window.open(\'{static("images/main_menu.jpg")}\', \'_blank\', \'width=800,height=600\'); return false;">'
+            f'<img src="{static("images/howtodo.jpg")}" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;">'
             '<span class="hugeicons--touchpad-04"></span></a>'
         )),
 
         FieldPanel("show_in_nav"),
 
         HelpPanel(content=mark_safe(
-            '<a href="#" class="help-img" onclick="window.open(\'/static/images/main_menu_drop.jpg\', \'_blank\', \'width=800,height=600\'); return false;">'
-            '<img src="/static/images/howtodo.jpg" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;">'
+            f'<a href="#" class="help-img" onclick="window.open(\'{static("images/main_menu_drop.jpg")}\', \'_blank\', \'width=800,height=600\'); return false;">'
+            f'<img src="{static("images/howtodo.jpg")}" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;">'
             '<span class="hugeicons--touchpad-04"></span></a>'
         )),
         FieldPanel("is_dropdown"),
 
         HelpPanel(content=mark_safe(
-            '<a href="#" class="help-img" onclick="window.open(\'/static/images/drop_menu.jpg\', \'_blank\', \'width=800,height=600\'); return false;">'
-            '<img src="/static/images/howtodo.jpg" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;">'
+            f'<a href="#" class="help-img" onclick="window.open(\'{static("images/drop_menu.jpg")}\', \'_blank\', \'width=800,height=600\'); return false;">'
+            f'<img src="{static("images/howtodo.jpg")}" alt="说明图片" style="width:40px; height:40px; border:1px solid #ccc;">'
             '<span class="hugeicons--touchpad-04"></span></a>'
         )),
         PageChooserPanel("nav_parent"),

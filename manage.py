@@ -1,8 +1,16 @@
 #!/usr/bin/env python
+import sys
+
+# —— 在 Windows 下强制 stdout/stderr 用 UTF-8 —— 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
+
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-
+import pymysql
+pymysql.install_as_MySQLdb()
 
 def main():
     """Run administrative tasks."""

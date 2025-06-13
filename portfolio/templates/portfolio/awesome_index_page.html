@@ -3,6 +3,11 @@
 {% load static %}
 
 {% block content %}
+<ul>
+  {% for subpage in page.pages %}
+  <li><a href="{% pageurl subpage %}">{{ subpage.title }}</a></li>
+  {% endfor %}
+</ul>
 
 <div class="container my">
   <nav class="myNavbar">
@@ -21,7 +26,6 @@
 <div class="tab-content my" id="nav-tabContent">
   {% for subpage in page.get_children.live %}
   <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="tab-{{ subpage.slug }}" role="tabpanel">
-    <!-- tab body -->
     {% include "portfolio/_subpage_detail.html" with subpage=subpage %}
   </div>
   {% endfor %}
